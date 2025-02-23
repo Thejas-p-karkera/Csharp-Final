@@ -16,122 +16,69 @@
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// event.cs
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace eventdelegate
+namespace C_programs
 {
-    class Event
-    {
-        static void Main(string[] args)
-        {
-            video v = new video();
-            v.set("Rona");
-            Console.WriteLine(v.get());
-            messageservice ms = new messageservice();
-            mailservice mas = new mailservice();
-            videoencode ve = new videoencode();
-            ve.encodeevent += ms.videodemand;
-            ve.encodeevent += mas.onvideodemand;
-            ve.Encode(v);
 
+    // Publisher class (sends notifications)
+    class VideoEncoder
+    {
+        public delegate void VideoEncodedHandler(string videoTitle); // Define delegate
+        public event VideoEncodedHandler VideoEncoded; // Declare event
+
+        public void Encode(string videoTitle)
+        {
+            Console.WriteLine($"Encoding video: {videoTitle}");
+
+            // Notify subscribers
+            if (VideoEncoded != null)
+            {
+                VideoEncoded(videoTitle);
+            }
         }
     }
-}
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// mailservice.cs
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eventdelegate
-{
-   public class mailservice
+    // Subscriber 1 - SMS Notification
+    class SmsNotification
     {
-       public void onvideodemand()
-       {
-           Console.WriteLine("mail service:this is mail");
-       }
-
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// messageservice.cs
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eventdelegate
-{
-    public class messageservice
-    {
-        public void videodemand()
+        public void SendSms(string videoTitle)
         {
-            Console.WriteLine("Message service:this is a message");
+            Console.WriteLine($"SMS: Video '{videoTitle}' has been encoded.");
         }
-    
-
     }
-}
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// video.cs
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eventdelegate
-{
-   public class video
+    // Subscriber 2 - Mail Notification
+    class MailNotification
     {
-       string title;
-       public string get()
-       {
-           return title;
-       }
-       public void set(string value)
-       {
-           title = value;
-       }
+        public void SendMail(string videoTitle)
+        {
+            Console.WriteLine($"Mail: Video '{videoTitle}' has been encoded.");
+        }
     }
-}
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// videoencode.cs
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
-namespace eventdelegate
-{
-   public class videoencode
+    // Main Program
+    class Program
     {
-       public delegate void encodedelegate();
-       public event encodedelegate encodeevent;
-       public void Encode(video v)
-       {
-           Console.WriteLine("Encoding video");
-           Thread.Sleep(1000);
-           if (encodeevent != null)
-           {
-               encodeevent();
-           }
-       }
+        static void Main()
+        {
+            VideoEncoder encoder = new VideoEncoder();  // Create Publisher
+            SmsNotification sms = new SmsNotification(); // Create Subscriber 1
+            MailNotification mail = new MailNotification(); // Create Subscriber 2
 
+            // Subscribers register (subscribe) to the event
+            encoder.VideoEncoded += sms.SendSms;
+            encoder.VideoEncoded += mail.SendMail;
 
+            // Encoding a video (will trigger event)
+            encoder.Encode("My First Video");
+
+            Console.ReadLine();
+        }
     }
+
 }
