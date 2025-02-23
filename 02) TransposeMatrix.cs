@@ -3,68 +3,63 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
-namespace cSharp_ass_2
+namespace C_programs
 {
-    class TransposeMatrix
+    class Matrix
     {
-        static void Main(String[] args)
+        static void Main(string[] args)
         {
-            Console.Write("Enter the value for N: ");
-            int n;
-            if(!int.TryParse(Console.ReadLine(),out n))
-            {
-                Console.WriteLine("Enter a valid number");
-            }
+            Console.Write("Enter value for N: ");
+            int n = int.Parse(Console.ReadLine());
 
-            Console.Write("Enter the value for M: ");
-            int m;
-            if(!int.TryParse(Console.ReadLine(),out m))
-            {
-                Console.WriteLine("Enter a valid number");
-            }
+            Console.Write("Enter value for M: ");
+            int m = int.Parse(Console.ReadLine());
 
-            int[,] arr1 = new int[n, m];
-            for (int i = 0; i < n; i++)
+            int[,] mat1 = new int[n, m];
+
+            for(int i = 0; i < n; i++)
             {
-                for (int j = 0; j < m; j++)
+                for(int j = 0; j < m; j++)
                 {
-                    Console.Write("Enter " + j + "th element for " + i + "th row: ");
-                    arr1[i,j] = int.Parse(Console.ReadLine());
+                    Console.Write("Enter value for "+j+" th element of "+i+" th row: ");
+                    mat1[i, j] = int.Parse(Console.ReadLine()) ;
                 }
             }
 
-            Console.WriteLine("The original Matrix is: ");
+            Console.WriteLine("The matrix is: ");
+
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < m; j++)
                 {
-                    Console.Write(arr1[i,j]+" ");
+                    Console.Write(mat1[i, j]+" ");
                 }
                 Console.WriteLine();
             }
 
-            //Transpose
-            int[,] arr2 = new int[m,n];
+            int[,] mat2 = new int[m, n];
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < m; j++)
                 {
-                    arr2[j,i] = arr1[i,j];
+                    mat2[j, i] = mat1[i, j];
                 }
             }
 
-            Console.WriteLine("The Transpose of Matrix is: ");
+            Console.WriteLine("The Transposed matrix is: ");
+
             for (int i = 0; i < m; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    Console.Write(arr2[i, j] + " ");
+                    Console.Write(mat2[i, j] + " ");
                 }
                 Console.WriteLine();
             }
 
-            if (symmetriCheck(arr1, arr2, n, m))
+            if(isSymmetr(mat1, mat2, n, m))
             {
                 Console.WriteLine("The matrix is symmetric");
             }
@@ -74,21 +69,23 @@ namespace cSharp_ass_2
             }
         }
 
-        static bool symmetriCheck(int[,] arr1, int[,] arr2, int n, int m)
+        static bool isSymmetr(int[,] mat1, int[,] mat2, int n, int m)
         {
-            if (n == m)       // checking if the no. of row's and column's are equal
+            if (n != m)
             {
-                for (int i = 0; i < n; i++)         //to check if the diagonal elements are equal
+                return false;
+            }
+                for (int i = 0; i < n; i++)
                 {
                     for (int j = 0; j < m; j++)
                     {
-                        if (arr1[i, j] != arr2[i, j])
+                        if (mat1[i, j] != mat2[i, j])
                         {
                             return false;
                         }
                     }
-                } 
-            }
+                }
+            
             return true;
         }
     }
