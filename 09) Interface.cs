@@ -1,11 +1,16 @@
 //	To create 
 // a.	interface Book with methods getBook(), calculate(), display(), discount(). 
 // b.	interface Cassette with methods getCassette(), calculate(), display(), commission(). 
-// c.	class Media where you implement the two interfaces and has data elements itno, title, author, singer, nopages, duration and price. In getBook() accept book details. In getCassette() accept cassette details. In calculate of books, increment the price by 5% of the price. In calculate of cassette increment the price by 4%. In displayBook() display book details. In displayCassette() display cassette details. In discount()  reduce the price by 2%.  In  commission() return 3% of the price.
+// c.	class Media where you implement the two interfaces and has data elements 
+        //itno, title, author, singer, nopages, duration and price. In getBook() accept book details. 
+        //In getCassette() accept cassette details. In calculate of books, increment the price by 5% of the price. 
+        //In calculate of cassette increment the price by 4%. In displayBook() display book details. 
+        //In displayCassette() display cassette details. In discount()  reduce the price by 2%.  In  commission() return 3% of the price.
 // d.	In an executable class, in main(),  display menu
 //						<1>Sell Book
 //						<2>Sell Cassette
-//		Accept choice. Depending on the choice call appropriate functions defined in Test class and pass an object of Media type. In the methods receive the Media object into the appropriate interface reference variable and call the object’s methods.
+//		Accept choice. Depending on the choice call appropriate functions defined in Test class and pass an object of Media type. 
+        //In the methods receive the Media object into the appropriate interface reference variable and call the object’s methods.
 
 
 ﻿using System;
